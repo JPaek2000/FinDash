@@ -10,9 +10,28 @@
 <body>
     <div class="container">
         <h1>Transaction History</h1>
-        
-        <p>Here you can view your transaction history. (Functionality to be added)</p>
-        
+
+        {% if transactions %}
+            <table border="1">
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                </tr>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction['date'] }}</td>
+                    <td>{{ transaction['category'] }}</td>
+                    <td>{{ transaction['amount'] }}</td>
+                    <td>{{ transaction['type'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No transactions found.</p>
+        {% endif %}
+
         <a href="{{ url_for('index') }}">Back to Dashboard</a>
     </div>
 </body>
