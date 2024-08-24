@@ -8,26 +8,28 @@
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
-    <h1>Welcome to the Personal Finance Dashboard</h1>
-    
-    <h2>Add a Transaction</h2>
-    <form action="/add" method="post">
-        <label for="date">Date:</label>
-        <input type="date" name="date" required><br>
+    <div class="container">
+        <h1>Welcome to the Personal Finance Dashboard</h1>
         
-        <label for="category">Category:</label>
-        <input type="text" name="category" required><br>
-        
-        <label for="amount">Amount:</label>
-        <input type="number" step="0.01" name="amount" required><br>
-        
-        <label for="type">Type:</label>
-        <select name="type" required>
-            <option value="Income">Income</option>
-            <option value="Expense">Expense</option>
-        </select><br>
-        
-        <button type="submit">Add Transaction</button>
-    </form>
+        <h2>Add a Transaction</h2>
+        <form action="/add" method="post">
+            <label for="date">Date:</label>
+            <input type="date" name="date" required>
+            
+            <label for="category">Category:</label>
+            <input type="text" name="category" required>
+            
+            <label for="amount">Amount:</label>
+            <input type="number" step="0.01" name="amount" required>
+            
+            <label for="type">Type:</label>
+            <select name="type" required>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+            
+            <button type="submit">Add Transaction</button>
+        </form>
+    </div>
 </body>
 </html>
