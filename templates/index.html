@@ -11,25 +11,43 @@
     <div class="container">
         <h1>Welcome to the Personal Finance Dashboard</h1>
         
-        <h2>Add a Transaction</h2>
-        <form action="/add" method="post">
-            <label for="date">Date:</label>
-            <input type="date" name="date" required>
-            
-            <label for="category">Category:</label>
-            <input type="text" name="category" required>
-            
-            <label for="amount">Amount:</label>
-            <input type="number" step="0.01" name="amount" required>
-            
-            <label for="type">Type:</label>
-            <select name="type" required>
-                <option value="Income">Income</option>
-                <option value="Expense">Expense</option>
-            </select>
-            
-            <button type="submit">Add Transaction</button>
-        </form>
+        <div id="menu">
+            <button onclick="showSection('addTransaction')">Add a Transaction</button>
+            <button onclick="showSection('viewHistory')">View Transaction History</button>
+            <button onclick="showSection('financialOverview')">Financial Overview</button>
+        </div>
+        
+        <div id="addTransaction" class="section" style="display:none;">
+            <h2>Add a Transaction</h2>
+            <form action="/add" method="post">
+                <label for="date">Date:</label>
+                <input type="date" name="date" required>
+                
+                <label for="category">Category:</label>
+                <input type="text" name="category" required>
+                
+                <label for="amount">Amount:</label>
+                <input type="number" step="0.01" name="amount" required>
+                
+                <label for="type">Type:</label>
+                <select name="type" required>
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
+                </select>
+                
+                <button type="submit">Add Transaction</button>
+            </form>
+        </div>
+        
+        <div id="viewHistory" class="section" style="display:none;">
+            <h2>Transaction History</h2>
+            <p>Here you can view your transaction history. (Functionality to be added)</p>
+        </div>
+        
+        <div id="financialOverview" class="section" style="display:none;">
+            <h2>Financial Overview</h2>
+            <p>Here you can view a summary of your finances. (Functionality to be added)</p>
+        </div>
     </div>
 </body>
 </html>
