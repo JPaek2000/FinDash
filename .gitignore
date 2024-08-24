@@ -1,3 +1,4 @@
 #testing purposes
 test_sqlite.py
 __pycache__
+supabase_key.txt
