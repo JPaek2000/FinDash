@@ -13,7 +13,9 @@
         
         <div id="menu">
             <button onclick="showSection('addTransaction')">Add a Transaction</button>
-            <button onclick="showSection('viewHistory')">View Transaction History</button>
+            <a href="{{ url_for('view_transactions') }}">
+                <button>View Transaction History</button>
+            </a>
             <button onclick="showSection('financialOverview')">Financial Overview</button>
         </div>
         
@@ -37,11 +39,6 @@
                 
                 <button type="submit">Add Transaction</button>
             </form>
-        </div>
-        
-        <div id="viewHistory" class="section" style="display:none;">
-            <h2>Transaction History</h2>
-            <p>Here you can view your transaction history. (Functionality to be added)</p>
         </div>
         
         <div id="financialOverview" class="section" style="display:none;">
