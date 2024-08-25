@@ -25,9 +25,7 @@ def login():
 
         try:
             user = auth.get_user_by_email(email)
-            # You need to verify the password with Firebase Authentication
-            # Firebase Admin SDK does not support password verification directly.
-            # Use Firebase client SDK for this purpose.
+            # Client-side verification of the password is needed
             session['user_id'] = user.uid
             return redirect(url_for('index'))
         except auth.AuthError as e:
@@ -67,7 +65,8 @@ def add_transaction():
         "date": date,
         "category": category,
         "amount": amount,
-        "type": transaction_type
+        "type": transaction_type,
+        "user_id": session['user_id']
     }
     
     try:
@@ -84,7 +83,7 @@ def view_transactions():
         return redirect(url_for('login'))
 
     try:
-        transactions_ref = db.collection("transactions")
+        transactions_ref = db.collection("transactions").where("user_id", "==", session['user_id'])
         docs = transactions_ref.stream()
         transactions = [doc.to_dict() for doc in docs]
     except Exception as e:
