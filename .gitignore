@@ -1,4 +1,4 @@
 #testing purposes
-test_sqlite.py
 __pycache__
-supabase_key.txt
+*.json
+firebase_credentials.json

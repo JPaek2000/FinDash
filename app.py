@@ -1,30 +1,15 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-from supabase import create_client, Client
+import firebase_admin
+from firebase_admin import credentials, firestore
 import os
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Needed for flashing messages
 
-# Load Supabase configuration from the file
-def load_supabase_config(file_path='supabase_key.txt'):
-    config = {}
-    with open(file_path, 'r') as file:
-        for line in file:
-            key, value = line.strip().split('=')
-            config[key] = value
-    return config
-
-# Load config from file
-config = load_supabase_config()
-SUPABASE_URL = os.getenv('SUPABASE_URL', config.get('SUPABASE_URL'))
-SUPABASE_KEY = os.getenv('SUPABASE_KEY', config.get('SUPABASE_KEY'))
-
-# Ensure that Supabase URL and key are available
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("Supabase URL and key must be set either in environment variables or in the configuration file.")
-
-# Initialize Supabase client
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+# Initialize Firebase
+cred = credentials.Certificate('firebase_credentials.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 @app.route('/')
 def index():
@@ -43,7 +28,7 @@ def add_transaction():
         flash("All fields are required!")
         return redirect(url_for('index'))
     
-    # Example of saving transaction to Supabase (adjust as needed)
+    # Example of saving transaction to Firestore
     data = {
         "date": date,
         "category": category,
@@ -52,11 +37,8 @@ def add_transaction():
     }
     
     try:
-        response = supabase.table("transactions").insert(data).execute()
-        if response.status_code == 201:
-            flash("Transaction added successfully!")
-        else:
-            flash("Failed to add transaction.")
+        db.collection("transactions").add(data)
+        flash("Transaction added successfully!")
     except Exception as e:
         flash(f"An error occurred: {e}")
     
@@ -66,9 +48,10 @@ def add_transaction():
 @app.route('/view')
 def view_transactions():
     try:
-        # Fetch transaction data from the database
-        response = supabase.table("transactions").select("*").execute()
-        transactions = response.data
+        # Fetch transaction data from Firestore
+        transactions_ref = db.collection("transactions")
+        docs = transactions_ref.stream()
+        transactions = [doc.to_dict() for doc in docs]
     except Exception as e:
         flash(f"An error occurred: {e}")
         transactions = []
